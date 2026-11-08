@@ -8,6 +8,7 @@ import { describeTermination, deriveTermination } from "./termination";
 
 export const getEvaluateGameParams = (game: Chess): EvaluateGameParams => {
   const history = game.history({ verbose: true });
+  if (history.length === 0) return { fens: [], uciMoves: [] };
 
   const fens = history.map((move) => move.before);
   fens.push(history[history.length - 1].after);
