@@ -3,6 +3,7 @@ import { Game, Player } from "@/types/game";
 import { Chess, PieceSymbol, Square } from "chess.js";
 import { getPositionWinPercentage } from "./engine/helpers/winPercentage";
 import { Color } from "@/types/enums";
+import { BRAND_PGN_EVENT, BRAND_PGN_SITE } from "@/constants";
 import { Piece } from "react-chessboard/dist/chessboard/types";
 import { describeTermination, deriveTermination } from "./termination";
 
@@ -59,8 +60,8 @@ export const setGameHeaders = (
   game: Chess,
   params: { white?: Player; black?: Player; resigned?: Color } = {}
 ): Chess => {
-  game.setHeader("Event", "Chesskit Game");
-  game.setHeader("Site", "Chesskit.org");
+  game.setHeader("Event", BRAND_PGN_EVENT);
+  game.setHeader("Site", BRAND_PGN_SITE);
   game.setHeader(
     "Date",
     new Date().toISOString().split("T")[0].replace(/-/g, ".")

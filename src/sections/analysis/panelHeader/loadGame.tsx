@@ -14,6 +14,7 @@ import { Chess } from "chess.js";
 import { useRouter } from "next/router";
 import { GameEval } from "@/types/eval";
 import { fetchLichessGame } from "@/lib/lichess";
+import { BRAND_PGN_SITE } from "@/constants";
 
 export default function LoadGame() {
   const router = useRouter();
@@ -53,7 +54,7 @@ export default function LoadGame() {
 
     if (gameFromUrl) {
       const orientation = !(
-        gameFromUrl.site === "Chesskit.org" && gameFromUrl.black.name === "You"
+        gameFromUrl.site === BRAND_PGN_SITE && gameFromUrl.black.name === "You"
       );
       resetAndSetGamePgn(gameFromUrl.pgn, orientation, gameFromUrl.eval);
     } else if (typeof lichessGameId === "string" && !!lichessGameId) {

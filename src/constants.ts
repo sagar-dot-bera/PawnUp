@@ -1,5 +1,11 @@
 import { EngineName, MoveClassification } from "./types/enums";
 
+// One place for the product name, so the PGN headers we write and the check that
+// reads them back (loadGame.tsx) cannot drift apart.
+export const BRAND_NAME = "Chesskit";
+export const BRAND_PGN_EVENT = `${BRAND_NAME} Game`;
+export const BRAND_PGN_SITE = "Chesskit.org";
+
 export const MAIN_THEME_COLOR = "#3B9AC6";
 export const LINEAR_PROGRESS_BAR_COLOR = "#3B9AC6";
 
