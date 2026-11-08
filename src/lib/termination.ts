@@ -30,19 +30,39 @@ const winFor = (color: Color): Result =>
 const opponentOf = (color: Color): Color =>
   color === Color.White ? Color.Black : Color.White;
 
+// Same simplification as python-chess's has_insufficient_material for the common
+// cases: a bare king, or a king with a single minor piece, cannot mate.
+const hasMatingMaterial = (game: Chess, color: Color): boolean => {
+  const pieces = game
+    .board()
+    .flat()
+    .filter((square) => square?.color === color && square.type !== "k");
+  if (pieces.some((p) => p?.type === "p" || p?.type === "r" || p?.type === "q"))
+    return true;
+  return pieces.length >= 2;
+};
+
 /**
  * Rule R4: a finished game has exactly one Result and one Termination, and they
  * agree. Returns undefined while the game is still in progress.
  */
 export const deriveTermination = (
   game: Chess,
-  params: { resigned?: Color } = {}
+  params: { resigned?: Color; timedOut?: Color } = {}
 ): GameEnd | undefined => {
   if (params.resigned) {
     return {
       result: winFor(opponentOf(params.resigned)),
       termination: Termination.Resignation,
     };
+  }
+
+  if (params.timedOut) {
+    // FIDE: a flagged player draws if the opponent cannot possibly checkmate
+    const opponent = opponentOf(params.timedOut);
+    return hasMatingMaterial(game, opponent)
+      ? { result: winFor(opponent), termination: Termination.Timeout }
+      : { result: Result.Draw, termination: Termination.InsufficientMaterial };
   }
 
   if (game.isCheckmate()) {
