@@ -4,6 +4,7 @@ import { Chess, PieceSymbol, Square } from "chess.js";
 import { getPositionWinPercentage } from "./engine/helpers/winPercentage";
 import { Color } from "@/types/enums";
 import { Piece } from "react-chessboard/dist/chessboard/types";
+import { describeTermination, deriveTermination } from "./termination";
 
 export const getEvaluateGameParams = (game: Chess): EvaluateGameParams => {
   const history = game.history({ verbose: true });
@@ -79,37 +80,13 @@ export const setGameHeaders = (
   if (white?.rating) game.setHeader("WhiteElo", `${white.rating}`);
   if (black?.rating) game.setHeader("BlackElo", `${black.rating}`);
 
-  if (resigned) {
-    game.setHeader("Result", resigned === "w" ? "0-1" : "1-0");
+  const end = deriveTermination(game, { resigned });
+  if (end) {
+    game.setHeader("Result", end.result);
     game.setHeader(
       "Termination",
-      `${resigned === "w" ? blackName : whiteName} won by resignation`
+      describeTermination(end, { white: whiteName, black: blackName })
     );
-  }
-
-  if (!game.isGameOver()) return game;
-
-  if (game.isCheckmate()) {
-    game.setHeader("Result", game.turn() === "w" ? "0-1" : "1-0");
-    game.setHeader(
-      "Termination",
-      `${game.turn() === "w" ? blackName : whiteName} won by checkmate`
-    );
-  }
-
-  if (game.isInsufficientMaterial()) {
-    game.setHeader("Result", "1/2-1/2");
-    game.setHeader("Termination", "Draw by insufficient material");
-  }
-
-  if (game.isStalemate()) {
-    game.setHeader("Result", "1/2-1/2");
-    game.setHeader("Termination", "Draw by stalemate");
-  }
-
-  if (game.isThreefoldRepetition()) {
-    game.setHeader("Result", "1/2-1/2");
-    game.setHeader("Termination", "Draw by threefold repetition");
   }
 
   return game;

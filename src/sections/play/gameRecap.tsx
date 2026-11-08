@@ -1,14 +1,26 @@
 import { useAtomValue } from "jotai";
-import { gameAtom, isGameInProgressAtom, playerColorAtom } from "./states";
+import {
+  enginePlayNameAtom,
+  gameAtom,
+  isGameInProgressAtom,
+  playerColorAtom,
+} from "./states";
 import { Button, Grid2 as Grid, Typography } from "@mui/material";
 import { Color } from "@/types/enums";
 import { setGameHeaders } from "@/lib/chess";
+import { ENGINE_LABELS } from "@/constants";
+import {
+  describeTermination,
+  deriveTermination,
+  Termination,
+} from "@/lib/termination";
 import { useGameDatabase } from "@/hooks/useGameDatabase";
 import { useRouter } from "next/router";
 
 export default function GameRecap() {
   const game = useAtomValue(gameAtom);
   const playerColor = useAtomValue(playerColorAtom);
+  const engineName = useAtomValue(enginePlayNameAtom);
   const isGameInProgress = useAtomValue(isGameInProgressAtom);
   const { addGame } = useGameDatabase();
   const router = useRouter();
@@ -16,17 +28,16 @@ export default function GameRecap() {
   if (isGameInProgress || !game.history().length) return null;
 
   const getResultLabel = () => {
-    if (game.isCheckmate()) {
-      const winnerColor = game.turn() === "w" ? Color.Black : Color.White;
-      const winnerLabel = winnerColor === playerColor ? "You" : "Stockfish";
-      return `${winnerLabel} won by checkmate !`;
-    }
-    if (game.isInsufficientMaterial()) return "Draw by insufficient material";
-    if (game.isStalemate()) return "Draw by stalemate";
-    if (game.isThreefoldRepetition()) return "Draw by threefold repetition";
-    if (game.isDraw()) return "Draw by fifty-move rule";
+    const resigned = game.isGameOver() ? undefined : playerColor;
+    const end = deriveTermination(game, { resigned });
+    if (!end) return "";
+    if (end.termination === Termination.Resignation) return "You resigned";
 
-    return "You resigned";
+    const opponentName = ENGINE_LABELS[engineName].small;
+    return describeTermination(end, {
+      white: playerColor === Color.White ? "You" : opponentName,
+      black: playerColor === Color.Black ? "You" : opponentName,
+    });
   };
 
   const handleOpenGameAnalysis = async () => {
