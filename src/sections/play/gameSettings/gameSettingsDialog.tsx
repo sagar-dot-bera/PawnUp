@@ -133,7 +133,7 @@ export default function GameSettingsDialog({ open, onClose }: Props) {
         >
           <Grid container justifyContent="center" size={12}>
             <FormControl variant="outlined">
-              <InputLabel id="dialog-select-label">Bot's engine</InputLabel>
+              <InputLabel id="dialog-select-label">Engine</InputLabel>
               <Select
                 labelId="dialog-select-label"
                 id="dialog-select"
@@ -157,7 +157,7 @@ export default function GameSettingsDialog({ open, onClose }: Props) {
           </Grid>
 
           <Slider
-            label="Bot Elo rating"
+            label="Engine Elo"
             value={engineElo}
             setValue={setEngineElo}
             min={1320}
