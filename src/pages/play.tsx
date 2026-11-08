@@ -1,3 +1,4 @@
+import { BRAND_NAME } from "@/constants";
 import { PageTitle } from "@/components/pageTitle";
 import Board from "@/sections/play/board";
 import GameInProgress from "@/sections/play/gameInProgress";
@@ -12,7 +13,7 @@ export default function Play() {
 
   return (
     <Grid container gap={4} justifyContent="space-evenly" alignItems="start">
-      <PageTitle title="Chesskit Play vs Stockfish" />
+      <PageTitle title={`${BRAND_NAME} Play vs Stockfish`} />
 
       <Board />
 

@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import NavLink from "@/components/NavLink";
 import Image from "next/image";
 import { styled } from "@mui/material/styles";
+import { BRAND_NAME, SOURCE_URL, UPSTREAM_URL } from "@/constants";
 
 interface Props {
   darkMode: boolean;
@@ -60,8 +61,8 @@ export default function NavBar({ darkMode, switchDarkMode }: Props) {
           </IconButton>
 
           <Image
-            src="/favicon-32x32.png"
-            alt="Chesskit logo"
+            src="/logo.svg"
+            alt={`${BRAND_NAME} logo`}
             width={32}
             height={32}
           />
@@ -76,24 +77,25 @@ export default function NavBar({ darkMode, switchDarkMode }: Props) {
                 fontSize: { xs: "1rem", sm: "1.25rem" },
               }}
             >
-              Chesskit
+              {BRAND_NAME}
             </Typography>
           </NavLink>
 
           <StyledIconButtonLink
-            href="https://discord.gg/Yr99abAcUr"
+            href={SOURCE_URL}
             target="_blank"
             rel="noopener noreferrer"
+            sx={{ fontSize: "0.875rem", ml: 1 }}
           >
-            <IconButton color="inherit" component="span">
-              <Icon icon="ri:discord-fill" />
-            </IconButton>
+            Source
           </StyledIconButtonLink>
 
           <StyledIconButtonLink
-            href="https://github.com/GuillaumeSD/Chesskit"
+            href={UPSTREAM_URL}
             target="_blank"
             rel="noopener noreferrer"
+            title="Based on Chesskit by GuillaumeSD"
+            aria-label="Based on Chesskit by GuillaumeSD"
             sx={{ ml: "min(0.6rem, 0.8vw)" }}
           >
             <IconButton color="inherit" component="span">

@@ -1,4 +1,9 @@
 import { Head, Html, Main, NextScript } from "next/document";
+import { BRAND_NAME } from "@/constants";
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "";
+const DESCRIPTION =
+  "Play live chess and analyze your games for free with Stockfish.";
 
 export default function Document() {
   return (
@@ -9,7 +14,7 @@ export default function Document() {
           sizes="180x180"
           href="/apple-touch-icon.png"
         />
-        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link
           rel="icon"
           type="image/png"
@@ -22,37 +27,26 @@ export default function Document() {
           sizes="16x16"
           href="/favicon-16x16.png"
         />
-        <meta
-          name="description"
-          content="Analyze your chess games for free on any device with Stockfish!"
-        />
+        <meta name="description" content={DESCRIPTION} />
 
         {/* OG (Social networks) */}
-        <meta property="og:title" content="chesskit.org" />
+        <meta property="og:title" content={BRAND_NAME} />
         <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="chesskit.org" />
-        <meta property="og:url" content="https://chesskit.org/" />
+        <meta property="og:site_name" content={BRAND_NAME} />
+        {SITE_URL && <meta property="og:url" content={`${SITE_URL}/`} />}
         <meta
           property="og:image"
-          content="https://chesskit.org/social-networks-1200x630.png"
+          content={`${SITE_URL}/social-networks-1200x630.png`}
         />
-        <meta
-          property="og:description"
-          content="Analyze your chess games for free on any device with Stockfish!"
-        />
+        <meta property="og:description" content={DESCRIPTION} />
 
         {/* Twitter */}
-        <meta name="twitter:title" content="chesskit.org" />
-        <meta name="twitter:domain" content="chesskit.org" />
-        <meta name="twitter:url" content="https://chesskit.org/" />
-        <meta
-          name="twitter:description"
-          content="Analyze your chess games for free on any device with Stockfish!"
-        />
+        <meta name="twitter:title" content={BRAND_NAME} />
+        <meta name="twitter:description" content={DESCRIPTION} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:image"
-          content="https://chesskit.org/social-networks-1200x630.png"
+          content={`${SITE_URL}/social-networks-1200x630.png`}
         />
       </Head>
       <body>

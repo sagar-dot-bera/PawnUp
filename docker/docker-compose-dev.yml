@@ -1,7 +1,7 @@
 services:
-  chesskit:
+  pawnup:
     image: node:22-slim
-    container_name: chesskit
+    container_name: pawnup
     user: "${HOST_UID}:${HOST_GID}"
     ports:
       - "3000:3000"

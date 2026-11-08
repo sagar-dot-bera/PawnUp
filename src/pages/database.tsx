@@ -13,6 +13,7 @@ import { blue, red } from "@mui/material/colors";
 import LoadGameButton from "@/sections/loadGame/loadGameButton";
 import { useGameDatabase } from "@/hooks/useGameDatabase";
 import { useRouter } from "next/router";
+import { BRAND_NAME } from "@/constants";
 import { PageTitle } from "@/components/pageTitle";
 
 const gridLocaleText: GridLocaleText = {
@@ -178,7 +179,7 @@ export default function GameDatabase() {
       gap={4}
       marginTop={6}
     >
-      <PageTitle title="Chesskit Game Database" />
+      <PageTitle title={`${BRAND_NAME} Game Database`} />
 
       <Grid container justifyContent="center" alignItems="center" size={12}>
         <LoadGameButton />

@@ -2,9 +2,13 @@ import { EngineName, MoveClassification } from "./types/enums";
 
 // One place for the product name, so the PGN headers we write and the check that
 // reads them back (loadGame.tsx) cannot drift apart.
-export const BRAND_NAME = "Chesskit";
+export const BRAND_NAME = "PawnUp";
 export const BRAND_PGN_EVENT = `${BRAND_NAME} Game`;
-export const BRAND_PGN_SITE = "Chesskit.org";
+export const BRAND_PGN_SITE = BRAND_NAME;
+
+// AGPL-3.0 section 13: users of the running service must be able to get its source.
+export const SOURCE_URL = "https://github.com/sagar-dot-bera/PawnUp";
+export const UPSTREAM_URL = "https://github.com/GuillaumeSD/Chesskit";
 
 export const MAIN_THEME_COLOR = "#3B9AC6";
 export const LINEAR_PROGRESS_BAR_COLOR = "#3B9AC6";
